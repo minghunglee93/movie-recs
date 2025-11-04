@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: movie-recommender:latest
+    container_name: movie-recommender-api
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount data directory for persistence
+      - ./data:/app/data
+    environment:
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+# Optional: Add Redis for caching
+#   redis:
+#     image: redis:7-alpine
+#     container_name: movie-recommender-redis
+#     ports:
+#       - "6379:6379"
+#     volumes:
+#       - redis_data:/data
+#     restart: unless-stopped
+
+# Optional: Add Nginx reverse proxy
+#   nginx:
+#     image: nginx:alpine
+#     container_name: movie-recommender-nginx
+#     ports:
+#       - "80:80"
+#     volumes:
+#       - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+#     depends_on:
+#       - api
+#     restart: unless-stopped
+
+# volumes:
+#   redis_data:

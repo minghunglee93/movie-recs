@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+.venv/
+
+# Data files (don't commit large datasets)
+data/
+*.csv
+*.zip
+*.pkl
+*.pickle
+
+# Keep data directory structure
+!data/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Logs
+*.log
+logs/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Jupyter Notebooks
+.ipynb_checkpoints/
+*.ipynb
+
+# Environment variables
+.env
+.env.local
+
+# Docker
+.docker/
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Models and caches
+*.model
+*.cache
+
+# OS
+Thumbs.db
+.DS_Store
