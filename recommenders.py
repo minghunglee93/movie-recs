@@ -359,7 +359,7 @@ class PopularityRecommender:
             return (v/(v+m) * R) + (m/(m+v) * C)
         
         self.popularity['score'] = self.popularity.apply(weighted_rating, axis=1)
-        self.popularity = self.popularity.merge(movies, on='movieId')
+        self.popularity = self.popularity.merge(self.movies, on='movieId')
     
     def recommend(self, n: int = 10) -> pd.DataFrame:
         """Get top N popular movies"""
