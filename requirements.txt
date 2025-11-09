@@ -13,6 +13,7 @@ pydantic==2.5.2
 
 # HTTP Requests
 requests==2.31.0
+httpx==0.25.2  # Required for FastAPI TestClient
 
 # Optional: Advanced recommendations
 # surprise==0.1  # For additional collaborative filtering algorithms
