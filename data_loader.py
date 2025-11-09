@@ -143,16 +143,35 @@ class MovieLensLoader:
         if self.ratings is None:
             self.load_data()
 
+        # Helper to convert numpy types to Python types
+        def convert_to_python(obj):
+            if isinstance(obj, np.integer):
+                return int(obj)
+            elif isinstance(obj, np.floating):
+                return float(obj)
+            elif isinstance(obj, np.ndarray):
+                return obj.tolist()
+            elif isinstance(obj, dict):
+                return {k: convert_to_python(v) for k, v in obj.items()}
+            return obj
+
         stats = {
-            'num_users': self.ratings.userId.nunique(),
-            'num_movies': self.ratings.movieId.nunique(),
-            'num_ratings': len(self.ratings),
-            'avg_rating': self.ratings.rating.mean(),
-            'median_rating': self.ratings.rating.median(),
-            'rating_distribution': self.ratings.rating.value_counts().sort_index().to_dict(),
-            'sparsity': 1 - (len(self.ratings) / (self.ratings.userId.nunique() * self.ratings.movieId.nunique())),
-            'ratings_per_user': self.ratings.groupby('userId').size().describe().to_dict(),
-            'ratings_per_movie': self.ratings.groupby('movieId').size().describe().to_dict()
+            'num_users': int(self.ratings.userId.nunique()),
+            'num_movies': int(self.ratings.movieId.nunique()),
+            'num_ratings': int(len(self.ratings)),
+            'avg_rating': float(self.ratings.rating.mean()),
+            'median_rating': float(self.ratings.rating.median()),
+            'rating_distribution': {
+                float(k): int(v) for k, v in
+                self.ratings.rating.value_counts().sort_index().to_dict().items()
+            },
+            'sparsity': float(1 - (len(self.ratings) / (self.ratings.userId.nunique() * self.ratings.movieId.nunique()))),
+            'ratings_per_user': convert_to_python(
+                self.ratings.groupby('userId').size().describe().to_dict()
+            ),
+            'ratings_per_movie': convert_to_python(
+                self.ratings.groupby('movieId').size().describe().to_dict()
+            )
         }
 
         return stats
