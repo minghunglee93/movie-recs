@@ -5,12 +5,8 @@ Implements multiple recommendation strategies
 
 import numpy as np
 import pandas as pd
-from scipy.sparse import csr_matrix
-from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.decomposition import TruncatedSVD
-from typing import List, Tuple, Dict
-import pickle
-from pathlib import Path
+from sklearn.metrics.pairwise import cosine_similarity
 
 
 class CollaborativeFilteringRecommender:
